@@ -1,0 +1,46 @@
+function sm = thirteenStateWormModel(varargin)
+%function sm = thirteenStateWormModel(varargin)
+%
+%creates the structure for a segmentation model with runs, kinks, omega turns,
+%and reversals, with transition states
+
+clusternames = {'run', 'kink', 'curl up', 'omega turn', 'uncurl', 'stretch', 'into reverse', 'reverse', ...
+    'out of reverse', 'going backwards', 'into second reversal', 'second reversal', 'out of second reversal'};
+allowedtransitions = ...
+    [1     1     1     0     0     0     1     0     0     0     0     0     0;...
+     1     1     0     0     0     0     0     0     0     0     0     0     0;...
+     0     0     1     1     0     0     0     0     0     0     0     0     0;...
+     0     0     0     1     1     0     0     0     0     0     0     0     0;...
+     0     0     0     0     1     1     0     0     0     0     0     0     0;...
+     1     0     0     0     0     1     0     0     0     0     0     0     0;...
+     0     0     0     0     0     0     1     1     0     0     0     0     0;...
+     0     0     0     0     0     0     0     1     1     0     0     0     0;...
+     0     0     0     0     0     0     0     0     1     1     0     0     0;...
+     0     0     1     0     0     0     0     0     0     1     1     0     0;...
+     0     0     0     0     0     0     0     0     0     0     1     1     0;...
+     0     0     0     0     0     0     0     0     0     0     0     1     1;...
+     1     0     0     0     0     0     0     0     0     0     0     0     1];
+ 
+ fieldnames = {'speed', 'scovRatio', 'deltatheta', 'dcovRatio'};
+ operation = {@(x) x, @(x) x, @(x) abs(x), @(x) x};
+ varargin = assignApplicable(varargin);
+ sm = SegmentationModel;
+ 
+ %sc = repmat(SegmentationCluster, length(clusternames));
+ for j = 1:length(clusternames)
+    sc(j) = SegmentationCluster;
+    sc(j).name = clusternames{j};
+ end
+ [sc.datafields] = deal(fieldnames);
+ [sc.operation] = deal(operation);
+ [sc.isSharpTurn] = deal(false);
+
+ sc(strcmpi('omega turn', clusternames)).isSharpTurn = true;
+ sc(strcmpi('kink', clusternames)).isSharpTurn = true;
+ sc(strcmpi('reverse', clusternames)).isSharpTurn = true;
+ sc(strcmpi('second reversal', clusternames)).isSharpTurn = true;
+ 
+ sm.segmentationClusters = sc;
+ sm.allowedTransitions = allowedtransitions;
+ 
+ 

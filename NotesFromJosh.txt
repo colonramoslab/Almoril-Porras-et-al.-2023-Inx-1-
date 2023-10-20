@@ -1,0 +1,16 @@
+You'll need the base functions from Aravi Samuels lab in the folder 'Matlab-Track-Analysis' 
+to be in your path. We use them throughout, but especially to pull data into matlab.
+I tried to copy them here, but ran into network issues. You can find them on DCR_3(\\172.21.197.66), W:\Software\MatLabScripts
+
+
+
+JoshAutoAnalyzePDF_time.m, 
+The first-pass analysis for our thermotaxis data does many of the 
+things you want to do, but after pulling in a batch of LabView files, 
+defined by a .bat file, such as 'U:\Eli\Behavior\Analysis\190626_N2_TcTest\analysis.bat'.
+It is set up to run from the LabView .tim & .bin files to produce specific matlab file for each experiment.
+Such as, 'U:\Eli\Behavior\Analysis\190626_N2_TcTest\190626a_N2_25C_4\190626a_N2_25C_4h_w1a_tracks_postclean_experiment_1.mat'
+which now has the data organized like I just showed you..
+
+Once .mat files are available, you can open them using approaches like I used in 'Analysis_ExistingMatFiles.m'
+
