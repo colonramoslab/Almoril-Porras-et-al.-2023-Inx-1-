@@ -139,7 +139,7 @@ passVals=and((speed>speedThresh),(ySpeed>yspeedThresh));
 passVals=and(passVals, (colavgdltThetawFiller < deltathetaThresh));
 % calculate continuity of passing first filter
 % forgiveness... eliminate very short failures.
-giveThresh=5; % stretches of less than this many failures are stitched together
+giveThresh=6; % stretches of less than this many failures are stitched together
 [lFail, ~] = stretchCounter(~passVals);
 passVals(lFail<giveThresh)=1;
 % encode continuity after stitching
